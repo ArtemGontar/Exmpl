@@ -19,7 +19,7 @@ namespace Calculator
         {
             services.AddSingleton<IOperationsService, OperationsService>();
             services.AddControllers();
-            //services.AddHealthChecks();
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

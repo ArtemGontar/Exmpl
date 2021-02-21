@@ -22,7 +22,7 @@ namespace Calculator.Services
             expressionEvaluator = new ExpressionEvaluator();
             calculations = new Dictionary<int, Operation>(){
                 {1, new Operation("2+2", float.Parse(expressionEvaluator.Evaluate("2+2").ToString()))},
-                {2, new Operation("4+4", float.Parse(expressionEvaluator.Evaluate("2+2").ToString()))}
+                {2, new Operation("4+4", float.Parse(expressionEvaluator.Evaluate("4+4").ToString()))}
             };
         }
 

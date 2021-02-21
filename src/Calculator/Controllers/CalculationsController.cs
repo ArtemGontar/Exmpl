@@ -3,7 +3,9 @@ using Calculator.Services;
 using CodingSeb.ExpressionEvaluator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Calculator.Controllers
 {
@@ -24,18 +26,21 @@ namespace Calculator.Controllers
         /// GET api/calculations
         /// </summary>
         [HttpGet("")]
-        public Dictionary<int, Operation> Get()
+        public IEnumerable<KeyValuePair<int, string>> Get()
         {
-            return operationsService.GetOperations();
+            var f = operationsService.GetOperations().Select(x => 
+                new KeyValuePair<int, string>(x.Key, x.Value.ToString()));
+            Console.WriteLine(f);
+            return f;
         }
 
         /// <summary>
         /// GET api/calculations/5
         /// </summary>
         [HttpGet("{id}")]
-        public Operation GetById(int id)
+        public string GetById(int id)
         {
-            return operationsService.GetOperation(id);
+            return operationsService.GetOperation(id).ToString();
         }
 
         /// <summary>

@@ -2,8 +2,8 @@ namespace Calculator.Domain
 {
     public class Operation
     {
-        float? result;
-        string expression;
+        private float? result;
+        private string expression;
 
         public Operation(string expression)
         {
@@ -15,5 +15,7 @@ namespace Calculator.Domain
             this.expression = expression;
             this.result = result;
         }
+
+        public override string ToString() => $"{expression}={result}";
     }
 }
