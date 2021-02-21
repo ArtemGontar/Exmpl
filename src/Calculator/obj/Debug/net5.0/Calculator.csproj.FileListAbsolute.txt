@@ -21,3 +21,5 @@ D:\Exmpl\src\Calculator\obj\Debug\net5.0\Calculator.dll
 D:\Exmpl\src\Calculator\obj\Debug\net5.0\ref\Calculator.dll
 D:\Exmpl\src\Calculator\obj\Debug\net5.0\Calculator.pdb
 D:\Exmpl\src\Calculator\obj\Debug\net5.0\Calculator.genruntimeconfig.cache
+D:\Exmpl\src\Calculator\bin\Debug\net5.0\CodingSeb.ExpressionEvaluator.dll
+D:\Exmpl\src\Calculator\obj\Debug\net5.0\Calculator.csproj.CopyComplete
