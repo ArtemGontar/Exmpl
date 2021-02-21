@@ -1,69 +1,55 @@
+using Calculator.Domain;
+using Calculator.Services;
+using CodingSeb.ExpressionEvaluator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 
 namespace Calculator.Controllers
 {
-    public class Operation
-    {
-        int? result;
-        string expression;
-
-        public Operation(string expression)
-        {
-            this.expression = expression;
-        }
-    }
-
-
     /// <summary>
     /// Calculator controller
     /// </summary>
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CalculationsController : ControllerBase
     {
-        private Dictionary<int, Operation> calculations;
-
-        public CalculationsController()
+        private IOperationsService operationsService;
+        public CalculationsController(IOperationsService operationsService)
         {
-            calculations = new Dictionary<int, Operation>(){
-                {1, new Operation("2+2")},
-                {2, new Operation("4+4")}
-            };
+            this.operationsService = operationsService;
         }
-
 
         /// <summary>
         /// GET api/calculations
         /// </summary>
         [HttpGet("")]
-        public Dictionary<int, Operation> Get()
+        public IEnumerable<KeyValuePair<int, string>> Get()
         {
-            return calculations;
+            var f = operationsService.GetOperations().Select(x => 
+                new KeyValuePair<int, string>(x.Key, x.Value.ToString()));
+            Console.WriteLine(f);
+            return f;
         }
 
         /// <summary>
         /// GET api/calculations/5
         /// </summary>
         [HttpGet("{id}")]
-        public Operation GetById(int id)
+        public string GetById(int id)
         {
-            calculations.TryGetValue(id, out var operation);
-            return operation;
+            return operationsService.GetOperation(id).ToString();
         }
 
         /// <summary>
         /// POST api/calculations
         /// </summary>
         [HttpPost]
-        public string Post([FromBody] string expression)
+        public float Post([FromBody] string expression)
         {
-            calculations.TryAdd(calculations.Count + 1, new Operation(expression));
-            return String.Empty;
+            return operationsService.Calculate(expression);
         }
 
         /// <summary>
@@ -72,7 +58,7 @@ namespace Calculator.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            calculations.Remove(id);
+            operationsService.DeleteOperation(id);
         }
     }
 }
