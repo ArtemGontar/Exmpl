@@ -1,3 +1,5 @@
+using Calculator.Domain;
+using Calculator.Services;
 using CodingSeb.ExpressionEvaluator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -5,43 +7,18 @@ using System.Collections.Generic;
 
 namespace Calculator.Controllers
 {
-    public class Operation
-    {
-        float? result;
-        string expression;
-
-        public Operation(string expression)
-        {
-            this.expression = expression;
-        }
-
-        public Operation(string expression, float result)
-        {
-            this.expression = expression;
-            this.result = result;
-        }
-    }
-
-
     /// <summary>
     /// Calculator controller
     /// </summary>
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CalculationsController : ControllerBase
     {
-        private Dictionary<int, Operation> calculations;
-        private ExpressionEvaluator expressionEvaluator;
-        public CalculationsController()
+        private IOperationsService operationsService;
+        public CalculationsController(IOperationsService operationsService)
         {
-            expressionEvaluator = new ExpressionEvaluator();
-            calculations = new Dictionary<int, Operation>(){
-                {1, new Operation("2+2")},
-                {2, new Operation("4+4")}
-            };
+            this.operationsService = operationsService;
         }
-
 
         /// <summary>
         /// GET api/calculations
@@ -49,7 +26,7 @@ namespace Calculator.Controllers
         [HttpGet("")]
         public Dictionary<int, Operation> Get()
         {
-            return calculations;
+            return operationsService.GetOperations();
         }
 
         /// <summary>
@@ -58,8 +35,7 @@ namespace Calculator.Controllers
         [HttpGet("{id}")]
         public Operation GetById(int id)
         {
-            calculations.TryGetValue(id, out var operation);
-            return operation;
+            return operationsService.GetOperation(id);
         }
 
         /// <summary>
@@ -68,9 +44,7 @@ namespace Calculator.Controllers
         [HttpPost]
         public float Post([FromBody] string expression)
         {
-            var result = float.Parse(expressionEvaluator.Evaluate(expression).ToString());
-            calculations.TryAdd(calculations.Count + 1, new Operation(expression, result));
-            return result;
+            return operationsService.Calculate(expression);
         }
 
         /// <summary>
@@ -79,7 +53,7 @@ namespace Calculator.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            calculations.Remove(id);
+            operationsService.DeleteOperation(id);
         }
     }
 }
