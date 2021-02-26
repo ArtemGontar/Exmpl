@@ -25,7 +25,7 @@ namespace Calculator.Controllers
         [HttpGet("")]
         public IEnumerable<Expenditure> Get()
         {
-            return ;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Calculator.Controllers
         [HttpGet("{id}")]
         public string GetById(int id)
         {
-            return ;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Calculator.Controllers
         [HttpPost]
         public float Post([FromBody] string expression)
         {
-            return ;
+            throw new NotImplementedException();
         }
 
         /// <summary>
