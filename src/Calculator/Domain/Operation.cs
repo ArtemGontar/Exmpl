@@ -2,20 +2,23 @@ namespace Calculator.Domain
 {
     public class Operation
     {
-        private float? result;
-        private string expression;
+        public int Id {get;}
+        public float? Result {get;}
+        public string Expression {get;}
 
-        public Operation(string expression)
+        public Operation(int id, string expression)
         {
-            this.expression = expression;
+            Id = id;
+            Expression = expression;
         }
 
-        public Operation(string expression, float result)
+        public Operation(int id, string expression, float result)
         {
-            this.expression = expression;
-            this.result = result;
+            Id = id;
+            Expression = expression;
+            Result = result;
         }
 
-        public override string ToString() => $"{expression}={result}";
+        public override string ToString() => $"{Id}: {Expression}={Result}";
     }
 }
