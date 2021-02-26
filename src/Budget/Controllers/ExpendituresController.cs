@@ -1,57 +1,58 @@
-using Calculator.Domain;
-using Calculator.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Budget.Domain;
 
 namespace Calculator.Controllers
 {
+    
     /// <summary>
     /// Calculator controller
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class CalculationsController : ControllerBase
+    public class ExpendituresController : ControllerBase
     {
-        private IOperationsService operationsService;
-        public CalculationsController(IOperationsService operationsService)
+        public ExpendituresController()
         {
-            this.operationsService = operationsService;
         }
 
         /// <summary>
-        /// GET api/calculations
+        /// GET api/expenditures
         /// </summary>
         [HttpGet("")]
-        public IEnumerable<Operation> Get()
+        public IEnumerable<Expenditure> Get()
         {
-            return operationsService.GetOperations();
+            return ;
         }
 
         /// <summary>
-        /// GET api/calculations/5
+        /// GET api/expenditures/5
         /// </summary>
         [HttpGet("{id}")]
         public string GetById(int id)
         {
-            return operationsService.GetOperation(id).ToString();
+            return ;
         }
 
         /// <summary>
-        /// POST api/calculations
+        /// POST api/expenditures
         /// </summary>
         [HttpPost]
         public float Post([FromBody] string expression)
         {
-            return operationsService.Calculate(expression);
+            return ;
         }
 
         /// <summary>
-        /// DELETE api/calculations/5
+        /// DELETE api/expenditures/5
         /// </summary>
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            operationsService.DeleteOperation(id);
+            
         }
     }
 }

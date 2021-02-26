@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Calculator.Domain;
 using CodingSeb.ExpressionEvaluator;
 
@@ -6,7 +7,7 @@ namespace Calculator.Services
 {
     public interface IOperationsService
     {
-        Dictionary<int, Operation> GetOperations();
+        ICollection<Operation> GetOperations();
         Operation GetOperation(int id);
         float Calculate(string expression);
         void DeleteOperation(int id);
@@ -16,37 +17,39 @@ namespace Calculator.Services
     {  
         private ExpressionEvaluator expressionEvaluator;
         
-        private Dictionary<int, Operation> calculations;
+        private ICollection<Operation> calculations;
 
         public OperationsService(){
             expressionEvaluator = new ExpressionEvaluator();
-            calculations = new Dictionary<int, Operation>(){
-                {1, new Operation("2+2", float.Parse(expressionEvaluator.Evaluate("2+2").ToString()))},
-                {2, new Operation("4+4", float.Parse(expressionEvaluator.Evaluate("4+4").ToString()))}
+            calculations = new List<Operation>()
+            {
+                new Operation(1, "2+2", float.Parse(expressionEvaluator.Evaluate("2+2").ToString())),
+                new Operation(2, "4+4", float.Parse(expressionEvaluator.Evaluate("4+4").ToString()))
             };
         }
 
-        public Dictionary<int, Operation> GetOperations()
+        public ICollection<Operation> GetOperations()
         {
             return calculations;
         }
 
         public Operation GetOperation(int id)
         {
-            calculations.TryGetValue(id, out var operation);
+            var operation = calculations.Where(x => x.Id == id).FirstOrDefault();
             return operation;
         }
 
         public float Calculate(string expression)
         {
             var result = float.Parse(expressionEvaluator.Evaluate(expression).ToString());
-            calculations.TryAdd(calculations.Count + 1, new Operation(expression, result));
+            calculations.Add(new Operation(calculations.Count() + 1, expression, result));
             return result;
         }
 
         public void DeleteOperation(int id)
         {
-            calculations.Remove(id);
+            var operation = calculations.Where(x => x.Id == id).FirstOrDefault();
+            calculations.Remove(operation);
         }
     }
 }
